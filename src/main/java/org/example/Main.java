@@ -13,7 +13,11 @@ public class Main {
 
         SparkSession sparkSession = SparkSession.builder().master("local").appName("Read_Erasmus").getOrCreate();
         Dataset<Row> dataset=  sparkSession.read().option("header","true").csv("E:/practica_IBM/JavaProj/src/main/resources/Erasmus.csv");
-        dataset.show(15,false);
+       // dataset.show(15,false);
+
+        dataset.printSchema();
+        dataset.select("Receiving Country Code","Sending Country Code").show(20,false);
+        dataset.groupBy("Receiving Country Code","Sending Country Code").count().withColumnRenamed("count","Number of students").show();
 
         }
     }
